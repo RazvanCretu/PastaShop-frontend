@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 // export const ThemeContext = createContext();
 
@@ -43,7 +44,10 @@ const Theme = ({ children }) => {
 
   return (
     // <ThemeContext.Provider value={toggleTheme}>
-    <ThemeProvider theme={themeMode}>{children}</ThemeProvider>
+    <ThemeProvider theme={themeMode}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
     // </ThemeContext.Provider>
   );
 };
