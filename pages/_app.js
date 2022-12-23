@@ -4,21 +4,24 @@ import { CacheProvider } from "@emotion/react";
 import Theme from "../contexts/themeContext";
 // import { theme } from "../utils/theme";
 import createEmotionCache from "../utils/emotionCache";
+import "@fontsource/roboto";
+import { Provider } from "react-redux";
+import store from "../store";
 
 const clientEmotionCache = createEmotionCache();
 
-export default function App({
-  Component,
-  emotionCache = clientEmotionCache,
-  pageProps,
-}) {
+function App({ Component, emotionCache = clientEmotionCache, pageProps }) {
   return (
     <CacheProvider value={emotionCache}>
-      <Theme>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Theme>
+      <Provider store={store}>
+        <Theme>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Theme>
+      </Provider>
     </CacheProvider>
   );
 }
+
+export default App;
