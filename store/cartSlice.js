@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // Initial state
 const initialState = {
   isCartOpen: false,
-  cart: [{}, {}, {}],
+  cart: [{ qty: 2 }, { qty: 5 }, { qty: 3 }],
   items: [],
 };
 

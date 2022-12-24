@@ -5,7 +5,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 // import { useThemeCtx } from "../contexts/themeContext";
 import { selectCart } from "../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,9 @@ const Links = styled(Box)(({ theme }) => ({
 const CartIcon = styled(IconButton)(({ theme, items }) => ({
   position: "relative",
   "&:after": {
-    content: `"${items.length.toString()}"`,
+    content: `"${items
+      .reduce((total, item) => total + item.qty, 0)
+      .toString()}"`,
     display: items.length === 0 ? "none" : "flex",
     height: "28px",
     width: "28px",
@@ -40,7 +42,7 @@ const CartIcon = styled(IconButton)(({ theme, items }) => ({
     top: 0,
     right: 0,
     padding: "15px",
-    transform: "scale(.5) translate(60%,-60%)",
+    transform: "scale(.5) translate(50%,-50%)",
     fontSize: "1.4rem",
     fontWeight: 700,
     border: "3px solid white",
@@ -67,7 +69,7 @@ const Layout = (props) => {
             )}
           </IconButton>
           <CartIcon items={cart}>
-            <ShoppingBasketRoundedIcon />
+            <ShoppingCartRoundedIcon />
           </CartIcon>
         </Box>
         <Links>
