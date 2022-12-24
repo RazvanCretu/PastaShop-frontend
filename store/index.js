@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { cartSlice } from "./cartSlice";
-import { createWrapper } from "next-redux-wrapper";
+// import { createWrapper } from "next-redux-wrapper";
 
 const makeStore = () =>
   configureStore({
@@ -10,6 +10,6 @@ const makeStore = () =>
     devTools: true,
   });
 
-const wrapper = createWrapper(makeStore);
+// const wrapper = createWrapper(makeStore);
 
 export default makeStore();
