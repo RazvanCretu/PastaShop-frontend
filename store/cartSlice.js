@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isCartOpen: false,
   cart: [{ qty: 2 }, { qty: 5 }, { qty: 3 }],
+  cartItems: {},
   items: [],
 };
 
@@ -17,26 +18,31 @@ export const cartSlice = createSlice({
       state.items = action.payload;
     },
     addToCart: (state, action) => {
-      state.cart.push(action.payload.item);
+      // const { item } = action.payload;
+      const isItemInCart = state.cartItems.hasOwnProperty(action.payload.name);
+      if (!isItemInCart) {
+        state.cart.push(action.payload);
+        state.cartItems[action.payload.name] = {
+          ...action.payload,
+          qty: 1,
+        };
+      } else {
+        state.cartItems[action.payload.name].qty++;
+      }
     },
+
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+      delete state.cartItems[action.payload.name];
     },
     increaseCount: (state, action) => {
-      state.cart = state.cart.map((item) => {
-        if (item.id === action.payload.id) {
-          item.count++;
-        }
-        return item;
-      });
+      state.cartItems[action.payload.name].qty++;
     },
     decreaseCount: (state, action) => {
-      state.cart = state.cart.map((item) => {
-        if (item.id === action.payload.id && item.count > 1) {
-          item.count--;
-        }
-        return item;
-      });
+      if (state.cartItems[action.payload.name].qty === 1) {
+        delete state.cartItems[action.payload.name];
+      } else {
+        state.cartItems[action.payload.name].qty--;
+      }
     },
     setIsCartOpen: (state) => {
       state.isCartOpen = !state.isCartOpen;
@@ -52,7 +58,7 @@ export const cartSlice = createSlice({
 
 // Selectors
 
-export const selectCart = (state) => state.cart.cart;
+export const selectCart = (state) => state.cart;
 
 // Actions
 
