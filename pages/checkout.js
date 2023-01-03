@@ -10,6 +10,7 @@ import {
   StepLabel,
 } from "@mui/material";
 import AddressInfo from "../components/Checkout/AddressInfo";
+import Confirmation from "../components/Checkout/Confirmation";
 
 const Cehckout = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -64,29 +65,48 @@ const Cehckout = () => {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit}>
-              {isFirstStep && (
-                <AddressInfo
-                  values={values}
-                  errors={errors}
-                  touched={touched}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  setFieldValue={setFieldValue}
-                />
-              )}
-              <Button
-                fullWidth
-                type="submit"
-                color="primary"
-                variant="contained"
-                sx={{
-                  color: "white",
-                  mt: 3,
-                  padding: "15px 40px",
-                }}
-              >
-                {!isSecondStep ? "Next" : "Place Order"}
-              </Button>
+              <Box>
+                {isFirstStep && (
+                  <AddressInfo
+                    values={values}
+                    errors={errors}
+                    touched={touched}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    setFieldValue={setFieldValue}
+                  />
+                )}
+                {isSecondStep && <Confirmation values={values} />}
+              </Box>
+              <Box display="flex" justifyContent="space-between" gap="50px">
+                {!isFirstStep && (
+                  <Button
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      color: "white",
+                      padding: "15px 40px",
+                    }}
+                    onClick={() => setActiveStep(activeStep - 1)}
+                  >
+                    Back
+                  </Button>
+                )}
+                <Button
+                  fullWidth
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    // mt: 3,
+                    padding: "15px 40px",
+                  }}
+                >
+                  {!isSecondStep ? "Next" : "Place Order"}
+                </Button>
+              </Box>
             </form>
           )}
         </Formik>
