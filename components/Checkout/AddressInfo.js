@@ -17,7 +17,7 @@ const AddressInfo = ({
 }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   return (
-    <Box>
+    <>
       <Box>
         <Typography sx={{ mb: "15px" }} fontSize="18px">
           Billing Information
@@ -67,7 +67,7 @@ const AddressInfo = ({
           sx={{ gridColumn: "span 4" }}
         />
       </Box>
-    </Box>
+    </>
   );
 };
 
