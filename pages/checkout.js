@@ -1,5 +1,10 @@
 import * as yup from "yup";
+import AddressInfo from "../components/Checkout/AddressInfo";
+import Confirmation from "../components/Checkout/Confirmation";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { selectCart } from "../store/cartSlice";
+import { useSelector } from "react-redux";
 import { Formik } from "formik";
 import {
   Container,
@@ -9,13 +14,19 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-import AddressInfo from "../components/Checkout/AddressInfo";
-import Confirmation from "../components/Checkout/Confirmation";
+import { ORDER_CREATE } from "../queries";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  "pk_test_51MMSxDEuhLhcyirl6xCYkC9RZjSyAfFbpgA4iRNIsVlxSYeMsoFf6m7MSv9Wkb84gfJKF2jlFFfcyZamdcA21q8M00N5nRXDIl"
+);
 
 const Cehckout = () => {
+  const { cartItems } = useSelector(selectCart);
   const [activeStep, setActiveStep] = useState(0);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
+  const [placeOrder] = useMutation(ORDER_CREATE);
 
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
@@ -30,10 +41,27 @@ const Cehckout = () => {
 
     if (isSecondStep) {
       alert("Payment!");
-      // makePayment(values);
+      makePayment(values);
     }
 
     actions.setTouched({});
+  };
+
+  const makePayment = async (values) => {
+    const stripe = await stripePromise;
+
+    const response = await placeOrder({
+      variables: {
+        products: Object.values(cartItems),
+        username: values.username || values.email,
+      },
+    });
+
+    const session = response.data.createOrder.data;
+    console.log(session);
+    await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
   };
 
   return (
@@ -76,7 +104,9 @@ const Cehckout = () => {
                     setFieldValue={setFieldValue}
                   />
                 )}
-                {isSecondStep && <Confirmation values={values} />}
+                {isSecondStep && (
+                  <Confirmation values={values} cartItems={cartItems} />
+                )}
               </Box>
               <Box display="flex" justifyContent="space-between" gap="50px">
                 {!isFirstStep && (
