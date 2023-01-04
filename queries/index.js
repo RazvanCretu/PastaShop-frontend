@@ -22,3 +22,19 @@ export const ITEMS = gql`
     }
   }
 `;
+
+export const ORDER_CREATE = gql`
+  mutation placeOrder($username: String!, $products: JSON!) {
+    createOrder(data: { username: $username, products: $products }) {
+      data {
+        id
+        attributes {
+          products
+          username
+          stripeSessionId
+          createdAt
+        }
+      }
+    }
+  }
+`;
