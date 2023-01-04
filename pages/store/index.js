@@ -63,7 +63,9 @@ const StorePage = ({ data }) => {
                     </>
                   )}
                   <IconButton
-                    onClick={() => dispatch(addToCart({ name, price }))}
+                    onClick={() =>
+                      dispatch(addToCart({ id: item.id, name, price }))
+                    }
                     color="success"
                   >
                     <AddShoppingCartRoundedIcon />
