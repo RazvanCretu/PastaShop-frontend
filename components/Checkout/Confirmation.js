@@ -1,10 +1,6 @@
 import { Box, Typography, Divider } from "@mui/material";
-import { selectCart } from "../../store/cartSlice";
-import { useSelector } from "react-redux";
 
-const Confirmation = ({ values }) => {
-  const { cartItems } = useSelector(selectCart);
-
+const Confirmation = ({ values, cartItems }) => {
   return (
     <>
       <Typography variant="h4">Shipping Information</Typography>
