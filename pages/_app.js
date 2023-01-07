@@ -1,14 +1,13 @@
 import "../styles/globals.css";
-import Layout from "../components/Layout";
-import { CacheProvider } from "@emotion/react";
 import Theme from "../contexts/themeContext";
-// import { theme } from "../utils/theme";
-import createEmotionCache from "../utils/emotionCache";
-import "@fontsource/roboto";
+import Layout from "../components/Layout";
 import { Provider } from "react-redux";
-import store from "../store";
+import { CacheProvider } from "@emotion/react";
 import { ApolloProvider } from "@apollo/client";
+import createEmotionCache from "../utils/emotionCache";
+import store from "../store";
 import client from "../utils/apolloClient";
+import "@fontsource/roboto";
 
 const clientEmotionCache = createEmotionCache();
 
