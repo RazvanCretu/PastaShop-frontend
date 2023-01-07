@@ -34,8 +34,6 @@ const Theme = ({ children }) => {
 
   if (!mounted) return <div style={{ visibility: "hidden" }} />;
 
-  console.log(pink);
-
   return (
     <ThemeProvider theme={{ ...themeMode, toggler }}>
       <CssBaseline />
