@@ -1,54 +1,42 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// export const ThemeContext = createContext();
+const light = {
+  palette: {
+    mode: "light",
+  },
+};
 
-// export const useThemeCtx = () => useContext(ThemeContext);
+const dark = {
+  palette: {
+    mode: "dark",
+  },
+};
 
 const Theme = ({ children }) => {
-  let defaultTheme;
-
-  if (typeof window !== "undefined") {
-    defaultTheme = getDefaultTheme();
-  }
-
-  const [theme, setTheme] = useState(defaultTheme);
+  const [theme, setTheme] = useState(getDefaultTheme());
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    setMounted(true);
+    if (!mounted) setMounted(true);
   }, [theme]);
 
   const themeMode = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: theme,
-        },
-        toggler: () => setTheme(theme === "light" ? "dark" : "light"),
-      }),
+    () => createTheme(theme === "light" ? light : dark),
     [theme]
   );
 
-  // const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+  const toggler = () => setTheme(theme === "light" ? "dark" : "light");
 
   if (!mounted) return <div style={{ visibility: "hidden" }} />;
 
   return (
-    // <ThemeContext.Provider value={toggleTheme}>
-    <ThemeProvider theme={themeMode}>
+    <ThemeProvider theme={{ ...themeMode, toggler }}>
       <CssBaseline />
       {children}
     </ThemeProvider>
-    // </ThemeContext.Provider>
   );
 };
 
@@ -57,9 +45,11 @@ const isDefaultDark = () =>
   window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 const getDefaultTheme = () => {
-  const localTheme = window.localStorage.getItem("theme");
-  const browserTheme = isDefaultDark() ? "dark" : "light";
-  return localTheme || browserTheme;
+  if (typeof window !== "undefined") {
+    const localTheme = window.localStorage.getItem("theme");
+    const browserTheme = isDefaultDark() ? "dark" : "light";
+    return localTheme || browserTheme;
+  }
 };
 
 export default Theme;
