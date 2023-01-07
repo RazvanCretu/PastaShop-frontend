@@ -1,6 +1,6 @@
 import { Box, Typography, Divider } from "@mui/material";
 
-const Confirmation = ({ values, cartItems }) => {
+const Confirmation = ({ values, cart }) => {
   return (
     <>
       <Typography variant="h4">Shipping Information</Typography>
@@ -15,7 +15,7 @@ const Confirmation = ({ values, cartItems }) => {
       ))}
       <Typography variant="h4">Products</Typography>
       <Divider variant="middle" sx={{ mt: 1, mb: 1 }} />
-      {Object.values(cartItems).map((item, i) => (
+      {Object.values(cart).map((item, i) => (
         <Box
           key={i}
           display="flex"

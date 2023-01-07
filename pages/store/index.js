@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const StorePage = ({ data }) => {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
 
   return (
     <Container sx={{ paddingTop: "100px" }}>
@@ -44,7 +44,7 @@ const StorePage = ({ data }) => {
               subheader={shortDescription}
               action={
                 <>
-                  {cartItems[name] && (
+                  {cart[name] && (
                     <>
                       <IconButton
                         onClick={() => dispatch(removeFromCart({ name }))}
@@ -59,7 +59,7 @@ const StorePage = ({ data }) => {
                       >
                         <RemoveRoundedIcon />
                       </IconButton>
-                      <Typography>{cartItems[name].qty}</Typography>
+                      <Typography>{cart[name].qty}</Typography>
                     </>
                   )}
                   <IconButton

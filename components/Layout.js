@@ -7,17 +7,13 @@ import Navigation from "./Navigation";
 
 const Layout = (props) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartItems } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
 
   return (
     <>
-      <Navigation setIsCartOpen={setIsCartOpen} cartItems={cartItems} />
+      <Navigation setIsCartOpen={setIsCartOpen} cart={cart} />
       {props.children}
-      <Cart
-        isCartOpen={isCartOpen}
-        setIsCartOpen={setIsCartOpen}
-        cartItems={cartItems}
-      />
+      <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} />
     </>
   );
 };

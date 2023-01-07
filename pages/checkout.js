@@ -22,7 +22,7 @@ const stripePromise = loadStripe(
 );
 
 const Cehckout = () => {
-  const { cartItems } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
   const [activeStep, setActiveStep] = useState(0);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
@@ -40,7 +40,7 @@ const Cehckout = () => {
     // }
 
     if (isSecondStep) {
-      alert("Payment!");
+      // alert("Payment!");
       makePayment(values);
     }
 
@@ -52,15 +52,18 @@ const Cehckout = () => {
 
     const response = await placeOrder({
       variables: {
-        products: Object.values(cartItems),
+        products: Object.values(cart),
         username: values.username || values.email,
       },
     });
 
-    const session = response.data.createOrder.data;
-    console.log(session);
+    const {
+      id,
+      attributes: { stripeSessionId },
+    } = response.data.createOrder.data;
+
     await stripe.redirectToCheckout({
-      sessionId: session.id,
+      sessionId: stripeSessionId,
     });
   };
 
@@ -104,9 +107,7 @@ const Cehckout = () => {
                     setFieldValue={setFieldValue}
                   />
                 )}
-                {isSecondStep && (
-                  <Confirmation values={values} cartItems={cartItems} />
-                )}
+                {isSecondStep && <Confirmation values={values} cart={cart} />}
               </Box>
               <Box display="flex" justifyContent="space-between" gap="50px">
                 {!isFirstStep && (

@@ -22,7 +22,7 @@ const Links = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Navigation = ({ cartItems, setIsCartOpen }) => {
+const Navigation = ({ cart, setIsCartOpen }) => {
   const router = useRouter();
   const theme = useTheme();
   return (
@@ -37,8 +37,8 @@ const Navigation = ({ cartItems, setIsCartOpen }) => {
         </IconButton>
         <IconButton onClick={() => setIsCartOpen(true)}>
           <Badge
-            badgeContent={Object.keys(cartItems)
-              .map((item) => cartItems[item])
+            badgeContent={Object.keys(cart)
+              .map((item) => cart[item])
               .reduce((total, item) => total + item.qty, 0)}
             color="success"
           >
