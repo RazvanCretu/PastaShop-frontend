@@ -28,6 +28,11 @@ export const ORDER_CREATE = gql`
     createOrder(data: { username: $username, products: $products }) {
       data {
         id
+        attributes {
+          products
+          username
+          stripeSessionId
+        }
       }
     }
   }
