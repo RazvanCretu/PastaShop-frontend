@@ -11,13 +11,13 @@ import {
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import useClickAway from "../utils/useClickAway";
 
-const Cart = ({ isCartOpen, setIsCartOpen, cartItems }) => {
+const Cart = ({ isCartOpen, setIsCartOpen, cart }) => {
   const router = useRouter();
   const cartBarRef = useRef(null);
 
   useClickAway(cartBarRef, () => setIsCartOpen(false));
 
-  const handleCheckoutClick = () => {
+  const handleCheckout = () => {
     setIsCartOpen(false);
     router.push("/checkout");
   };
@@ -41,29 +41,29 @@ const Cart = ({ isCartOpen, setIsCartOpen, cartItems }) => {
           <Typography pb="24px" variant="h3">
             Cart
           </Typography>
-          {Object.keys(cartItems).map((item, i) => {
+          {Object.keys(cart).map((item, i) => {
             return (
               <Typography key={i}>
-                {cartItems[item].name}
+                {cart[item].name}
                 {"    "}
-                {cartItems[item].qty}
+                {cart[item].qty}
                 {"    "}x{"    "}
-                {cartItems[item].price}$
+                {cart[item].price}$
               </Typography>
             );
           })}
           <Divider sx={{ pt: "12px" }} />
           <Typography pt="12px">
             Total:{" "}
-            {Object.keys(cartItems)
-              .map((item) => cartItems[item])
+            {Object.keys(cart)
+              .map((item) => cart[item])
               .reduce((total, item) => total + item.qty * item.price, 0)}
             $
           </Typography>
           <Button
             variant="contained"
             endIcon={<ShoppingCartCheckoutRoundedIcon />}
-            onClick={handleCheckoutClick}
+            onClick={handleCheckout}
             sx={{ mt: "1rem", minWidth: "100%" }}
           >
             Checkout
