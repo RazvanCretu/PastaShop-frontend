@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { pink } from "@mui/material/colors";
 
 const light = {
   palette: {
@@ -28,9 +29,12 @@ const Theme = ({ children }) => {
     [theme]
   );
 
-  const toggler = () => setTheme(theme === "light" ? "dark" : "light");
+  const toggler = () =>
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
 
   if (!mounted) return <div style={{ visibility: "hidden" }} />;
+
+  console.log(pink);
 
   return (
     <ThemeProvider theme={{ ...themeMode, toggler }}>
