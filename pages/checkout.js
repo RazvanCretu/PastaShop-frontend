@@ -96,7 +96,7 @@ const Cehckout = () => {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit}>
-              <Box>
+              <Box m="2rem 0">
                 {isFirstStep && (
                   <AddressInfo
                     values={values}
