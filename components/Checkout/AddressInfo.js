@@ -1,10 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-  TextField,
-} from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const AddressInfo = ({
@@ -16,6 +10,7 @@ const AddressInfo = ({
   setFieldValue,
 }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+
   return (
     <>
       <Box>
