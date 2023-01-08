@@ -1,19 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { light, dark } from "./palette";
 import CssBaseline from "@mui/material/CssBaseline";
-import { pink } from "@mui/material/colors";
-
-const light = {
-  palette: {
-    mode: "light",
-  },
-};
-
-const dark = {
-  palette: {
-    mode: "dark",
-  },
-};
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 const Theme = ({ children }) => {
   const [theme, setTheme] = useState(getDefaultTheme());
@@ -37,10 +26,13 @@ const Theme = ({ children }) => {
   return (
     <ThemeProvider theme={{ ...themeMode, toggler }}>
       <CssBaseline />
+      {globalStyles}
       {children}
     </ThemeProvider>
   );
 };
+
+const globalStyles = <GlobalStyles styles={{}} />;
 
 const isDefaultDark = () =>
   window.matchMedia &&

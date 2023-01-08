@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Theme from "../contexts/themeContext";
+import Theme from "../theme";
 import Layout from "../components/Layout";
 import { Provider } from "react-redux";
 import { CacheProvider } from "@emotion/react";
