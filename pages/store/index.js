@@ -17,7 +17,7 @@ import {
 } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const StorePage = ({ data }) => {
+const Store = ({ data }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector(selectCart);
 
@@ -26,7 +26,7 @@ const StorePage = ({ data }) => {
       {data.map((item, i) => {
         const { image, name, shortDescription, price } = item.attributes;
         return (
-          <Card key={i} sx={{ mb: 2 }}>
+          <Card key={i} sx={{ backgroundColor: "secondary.main", mb: 2 }}>
             <CardHeader
               sx={{
                 "& .MuiCardHeader-action": {
@@ -80,7 +80,7 @@ const StorePage = ({ data }) => {
   );
 };
 
-StorePage.getInitialProps = async (ctx) => {
+Store.getInitialProps = async (ctx) => {
   const { data } = await client.query({
     query: ITEMS,
   });
@@ -90,4 +90,4 @@ StorePage.getInitialProps = async (ctx) => {
   };
 };
 
-export default StorePage;
+export default Store;
