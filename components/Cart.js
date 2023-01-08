@@ -22,6 +22,10 @@ const Cart = ({ isCartOpen, setIsCartOpen, cart }) => {
     router.push("/checkout");
   };
 
+  const cartTotal = Object.keys(cart)
+    .map((item) => cart[item])
+    .reduce((total, item) => total + item.qty * item.price, 0);
+
   return (
     <Backdrop
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -53,20 +57,14 @@ const Cart = ({ isCartOpen, setIsCartOpen, cart }) => {
             );
           })}
           <Divider sx={{ pt: "12px" }} />
-          <Typography pt="12px">
-            Total:{" "}
-            {Object.keys(cart)
-              .map((item) => cart[item])
-              .reduce((total, item) => total + item.qty * item.price, 0)}
-            $
-          </Typography>
+          <Typography pt="12px">Total: {cartTotal}$</Typography>
           <Button
             variant="contained"
             endIcon={<ShoppingCartCheckoutRoundedIcon />}
             onClick={handleCheckout}
             sx={{ mt: "1rem", minWidth: "100%" }}
           >
-            Checkout
+            Pay: {cartTotal} $
           </Button>
         </Container>
       </AppBar>
