@@ -32,6 +32,7 @@ export const ORDER_CREATE = gql`
           products
           username
           stripeSessionId
+          url
         }
       }
     }
