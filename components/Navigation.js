@@ -1,7 +1,6 @@
 import { AppBar, Box, Button, IconButton, Badge } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { useRouter } from "next/router";
-
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
@@ -13,21 +12,46 @@ const pages = [
 ];
 
 const Links = styled(Box)(({ theme }) => ({
-  height: "5vh",
   display: "flex",
   alignItems: "center",
-  marginLeft: "1rem",
-  "& :nth-of-type(n)": {
+  marginLeft: "5rem",
+  "& :not(:first-of-type):nth-of-type(n)": {
     marginLeft: ".5rem",
+  },
+  "& .MuiLink-root": {
+    color: theme.palette.secondary.light,
   },
 }));
 
 const Navigation = ({ cart, setIsCartOpen }) => {
   const router = useRouter();
   const theme = useTheme();
+
   return (
-    <AppBar sx={{ display: "flex", flexFlow: "row" }} component="nav">
-      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}>
+    <AppBar
+      sx={{
+        height: "3.5rem",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+      component="nav"
+    >
+      <Links>
+        {pages.map((page) => {
+          return (
+            <Button
+              key={page.name}
+              href={page.path}
+              component={Link}
+              variant={router.pathname === page.path ? "contained" : "text"}
+              size="small"
+            >
+              {page.name}
+            </Button>
+          );
+        })}
+      </Links>
+      <Box sx={{ display: "flex", alignItems: "center", marginRight: "3rem" }}>
         <IconButton onClick={theme.toggler}>
           {theme.palette.mode === "dark" ? (
             <Brightness7Icon />
@@ -46,21 +70,6 @@ const Navigation = ({ cart, setIsCartOpen }) => {
           </Badge>
         </IconButton>
       </Box>
-      <Links>
-        {pages.map((page) => {
-          return (
-            <Button
-              key={page.name}
-              href={page.path}
-              component={Link}
-              variant={router.pathname === page.path ? "contained" : "text"}
-              size="small"
-            >
-              {page.name}
-            </Button>
-          );
-        })}
-      </Links>
     </AppBar>
   );
 };
