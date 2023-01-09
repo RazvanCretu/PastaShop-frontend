@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const loadCart = () => {
-  if (typeof window !== undefined) {
+  if (typeof window !== "undefined") {
     const cart = localStorage.getItem("cart");
 
     return JSON.parse(cart);
@@ -10,7 +10,7 @@ const loadCart = () => {
 // Initial state
 const initialState = {
   isCartOpen: false,
-  cart: {},
+  cart: loadCart() || {},
 };
 
 // Actual Slice
