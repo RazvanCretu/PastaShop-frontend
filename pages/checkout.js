@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import AddressInfo from "../components/Checkout/AddressInfo";
 import Confirmation from "../components/Checkout/Confirmation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { selectCart } from "../store/cartSlice";
 import { useSelector } from "react-redux";
@@ -27,6 +27,14 @@ const Cehckout = () => {
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
   const [placeOrder] = useMutation(ORDER_CREATE);
+  const query = new URLSearchParams(window.location.search);
+
+  useEffect(() => {
+    if (query.get("canceled")) {
+      // setMessage("Order placed! You will receive an email confirmation.");
+      alert("Order canceled");
+    }
+  }, []);
 
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
@@ -52,23 +60,24 @@ const Cehckout = () => {
 
     const response = await placeOrder({
       variables: {
-        products: Object.values(cart),
+        products: JSON.stringify(Object.values(cart)),
         username: values.username || values.email,
       },
     });
 
     const {
       id,
-      attributes: { stripeSessionId },
+      attributes: { stripeSessionId, url },
     } = response.data.createOrder.data;
 
-    await stripe.redirectToCheckout({
-      sessionId: stripeSessionId,
-    });
+    window.location.href = url;
+    // const { error } = await stripe.redirectToCheckout({
+    //   sessionId: stripeSessionId,
+    // });
   };
 
   return (
-    <Container sx={{ height: "500px", display: "flex", flexFlow: "column" }}>
+    <Container sx={{ display: "flex", flexFlow: "column" }}>
       <Stepper
         activeStep={activeStep}
         sx={{ m: "45px auto", height: "100px", width: "80%" }}
@@ -116,7 +125,6 @@ const Cehckout = () => {
                     color="primary"
                     variant="contained"
                     sx={{
-                      color: "white",
                       padding: "15px 40px",
                     }}
                     onClick={() => setActiveStep(activeStep - 1)}
@@ -130,7 +138,6 @@ const Cehckout = () => {
                   color="primary"
                   variant="contained"
                   sx={{
-                    color: "white",
                     // mt: 3,
                     padding: "15px 40px",
                   }}
